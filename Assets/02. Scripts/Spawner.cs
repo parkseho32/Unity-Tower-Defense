@@ -1,23 +1,23 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Enemy enemyPrefab;   // ½ºÆùÇÒ Àû ÇÁ¸®ÆÕ
-    [SerializeField] private Transform pathRoot;  // WPµéÀÌ µé¾îÀÖ´Â ºÎ¸ğ ¿ÀºêÁ§Æ®(Path)\
+    [SerializeField] private Enemy enemyPrefab;   // ìŠ¤í°í•  ì  í”„ë¦¬íŒ¹
+    [SerializeField] private Transform pathRoot;  // WPë“¤ì´ ë“¤ì–´ìˆëŠ” ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸(Path)
 
     [Header("Wave")]
-    [SerializeField] private int spawnCount = 10; // ¿şÀÌºê ´ç ½ºÆù ¼ö
-    [SerializeField] private float spawnInterval = 0.05f;  // ½ºÆù °£°İ(ÃÊ)
+    [SerializeField] private int spawnCount = 10; // ì›¨ì´ë¸Œ ë‹¹ ìŠ¤í° ìˆ˜
+    [SerializeField] private float spawnInterval = 0.05f;  // ìŠ¤í° ê°„ê²©(ì´ˆ)
 
-    private Transform[] waypoints;   // pathRoot ÀÚ½ÄµéÀ» ¹è¿­·Î ÀúÀå
+    private Transform[] waypoints;   // pathRoot ìì‹ë“¤ì„ ë°°ì—´ë¡œ ì €ì¥
 
     private void Awake()
     {
-        // Path ¾Æ·¡ ÀÚ½ÄµéÀ» waypoints·Î ±¸¼º 
-        // (ÁÖÀÇ) ÀÚ½Ä ¼ø¼­°¡ °æ·Î ¼ø¼­ÀÌ¹Ç·Î Hierarchy¿¡¼­ WP1~WPn ¼ø¼­¸¦ ¸ÂÃç¾ßÇÔ
+        // Path ì•„ë˜ ìì‹ë“¤ì„ waypointsë¡œ êµ¬ì„± 
+        // (ì£¼ì˜) ìì‹ ìˆœì„œê°€ ê²½ë¡œ ìˆœì„œì´ë¯€ë¡œ Hierarchyì—ì„œ WP0~WPn ìˆœì„œë¥¼ ë§ì¶°ì•¼í•¨
         int childCount = pathRoot.childCount;
         waypoints = new Transform[childCount];
 
@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // GameManager°¡ ¿şÀÌºê ½ÃÀÛÇÒ ¶§ È£ÃâÇÏ´Â ÇÔ¼ö
+    // GameManagerê°€ ì›¨ì´ë¸Œ ì‹œì‘í•  ë•Œ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜
     public void StartWave()
     {
         StartCoroutine(CoSpawnWave());
@@ -37,11 +37,11 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < spawnCount; i++)
         {
-            // Àû »ı¼º
+            // ì  ìƒì„±
             Enemy e = Instantiate(enemyPrefab);
-            e.Init(waypoints);   // °æ·Î ÁÖÀÔ
+            e.Init(waypoints);   // ê²½ë¡œ ì£¼ì…
 
-            // ´ÙÀ½ ½ºÆù±îÁö ´ë±â
+            // ë‹¤ìŒ ìŠ¤í°ê¹Œì§€ ëŒ€ê¸°
             yield return new WaitForSeconds(spawnInterval);
         }
     }
