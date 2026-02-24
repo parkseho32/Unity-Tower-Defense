@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7412e53614a8934e98d162cf276162b, type: 3}
+  m_Name: TD_Slow
+  m_EditorClassIdentifier: 
+  displayName: Slow
+  icon: {fileID: 0}
+  cost: 35
+  prefab: {fileID: 5652780531433623, guid: c3d22ab68ab2816469c9e9e35ad0c1c2, type: 3}
