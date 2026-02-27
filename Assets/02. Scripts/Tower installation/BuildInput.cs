@@ -31,4 +31,9 @@ public class BuildInput : MonoBehaviour
         // 설치 시도
         buildManager.TryBuild(cellPos, SelectedTower);
     }
+    
+    public void ClearSelection()
+    {
+        SelectedTower = null;    // 선택 타워를 비워서 프리뷰 숨기기
+    }
 }
