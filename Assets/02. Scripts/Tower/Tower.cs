@@ -12,6 +12,14 @@ public class Tower : MonoBehaviour
     [SerializeField] private Transform firePoint;    // 발사 위치
 
     private float fireTimer; // 발사 쿨타임 타이머
+    private TowerInstance inst;   // 업그레이드 스텟 제공자
+
+    private void Awake()
+    {
+        inst = GetComponent<TowerInstance>();   // 같은 오브젝트의 TowerInstance 찾기
+        if (inst == null) inst = GetComponentInParent<TowerInstance>();
+        if (inst == null) inst = GetComponentInChildren<TowerInstance>();
+    }
 
     private void Update()
     {
@@ -20,12 +28,15 @@ public class Tower : MonoBehaviour
         // 쿨타임이 남아있으면 발사 안 함
         if (fireTimer > 0f) return;
 
+        float currentrange = (inst != null) ? inst.Range : range;     // 업그레이드 반영 사거리
+        int currentdamage = (inst != null) ? inst.Damage : damage;    // 업그레이드 반영 데미지
+
         Transform target = FindClosestEnemyInRange();
 
         // 사거리 안에 적이 있으면 발사
         if (target != null)
         {
-            Fire(target);
+            Fire(target, damage);
             fireTimer = fireRate; // 쿨타임 리셋
         }
     }
@@ -50,18 +61,10 @@ public class Tower : MonoBehaviour
         return best;
     }
 
-    private void Fire(Transform target)
+    private void Fire(Transform target, int damage)
     {
         // 총알 생성 후 타겟/데미지 주입
         Bullet b = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         b.Init(target, damage);
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-        // 에디터에서 사거리 확인용
-        Gizmos.DrawWireSphere(transform.position, range);
-    }
-#endif
 }

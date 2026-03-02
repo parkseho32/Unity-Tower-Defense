@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -14,10 +14,11 @@ public class Spawner : MonoBehaviour
 
     private Transform[] waypoints;   // pathRoot 자식들을 배열로 저장
 
+    public bool IsSpawning { get; private set; }
+    public event Action<Enemy> OnSpawned;
+
     private void Awake()
     {
-        // Path 아래 자식들을 waypoints로 구성 
-        // (주의) 자식 순서가 경로 순서이므로 Hierarchy에서 WP0~WPn 순서를 맞춰야함
         int childCount = pathRoot.childCount;
         waypoints = new Transform[childCount];
 
@@ -27,22 +28,31 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // GameManager가 웨이브 시작할 때 호출하는 함수
     public void StartWave()
     {
-        StartCoroutine(CoSpawnWave());
+        StartWave(spawnCount);
     }
 
-    private IEnumerator CoSpawnWave()
+    public void StartWave(int count)  // 웨이브마다 스폰 수 받기
     {
+        if (IsSpawning) return;  // 이미 스폰 중이면 중복 시작 방지
+        StartCoroutine(CoSpawnWave(count));
+    }
+
+    private IEnumerator CoSpawnWave(int count)
+    {
+        IsSpawning = true;
+
         for (int i = 0; i < spawnCount; i++)
         {
-            // 적 생성
             Enemy e = Instantiate(enemyPrefab);
-            e.Init(waypoints);   // 경로 주입
+            e.Init(waypoints);
 
-            // 다음 스폰까지 대기
+            OnSpawned?.Invoke(e);    // WaveManager가 한 마리 스폰됨 카운트 가능
+
             yield return new WaitForSeconds(spawnInterval);
         }
+
+        IsSpawning = false;
     }
 }

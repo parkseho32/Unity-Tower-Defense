@@ -1,23 +1,33 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] private int maxHp = 10; // 적 최대 체력
-    private int hp;                          // 현재 체력
+    [SerializeField] private int maxHp = 10;       // 최대 체력
+    [SerializeField] private int rewardGold = 5;   // 처치 보상 골드
+
+    public event Action OnDied;  // 죽을 때 알림
+
+    private int hp;
+    private Economy economy;                       // 골드 관리자 참조
 
     private void Awake()
     {
-        hp = maxHp; // 시작 체력 세팅
+        hp = maxHp;
+        economy = FindObjectOfType<Economy>();     // 씬에 Economy 1개라는 전제(현재 구조에 맞음)
     }
 
-    // 총알이 호출할 데미지 함수
     public void TakeDamage(int damage)
     {
-        hp -= damage; // 체력 감소
+        hp -= damage;
 
         if (hp <= 0)
         {
-            Destroy(gameObject); // 2일차는 죽으면 제거로 처리
+            OnDied?.Invoke();
+            if (economy != null)
+                economy.Add(rewardGold);           // 죽을 때 골드 지급
+
+            Destroy(gameObject);
         }
     }
 }
