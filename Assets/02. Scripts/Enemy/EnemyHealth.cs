@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     public event Action OnDied;  // 죽을 때 알림
 
     private int hp;
+    private bool isDead = false;
     private Economy economy;                       // 골드 관리자 참조
 
     private void Awake()
@@ -19,13 +20,20 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
+
         hp -= damage;
 
         if (hp <= 0)
         {
+            isDead = true;
+
             OnDied?.Invoke();
-            if (economy != null)
-                economy.Add(rewardGold);           // 죽을 때 골드 지급
+
+            if (economy != null) economy.Add(rewardGold);           // 죽을 때 골드 지급
+
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
 
             Destroy(gameObject);
         }

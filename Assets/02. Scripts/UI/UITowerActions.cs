@@ -14,6 +14,7 @@ public class UITowerActions : MonoBehaviour
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button sellButton;
+    [SerializeField] private Button closeButton;
 
     private TowerInstance selected;
 
@@ -23,6 +24,9 @@ public class UITowerActions : MonoBehaviour
 
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         sellButton.onClick.AddListener(OnClickSell);
+
+        if (closeButton != null)
+            closeButton.onClick.AddListener(Deselect);
     }
 
     public void SelectTower(TowerInstance tower)
@@ -77,6 +81,11 @@ public class UITowerActions : MonoBehaviour
 
         selected = null;
         panelRoot.SetActive(false);
+    }
+
+    public void ClosePanel()
+    {
+        Deselect();
     }
 
     public void Deselect()

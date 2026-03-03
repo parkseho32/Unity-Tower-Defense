@@ -31,18 +31,18 @@ public class Tower : MonoBehaviour
         float currentrange = (inst != null) ? inst.Range : range;     // 업그레이드 반영 사거리
         int currentdamage = (inst != null) ? inst.Damage : damage;    // 업그레이드 반영 데미지
 
-        Transform target = FindClosestEnemyInRange();
+        Transform target = FindClosestEnemyInRange(currentrange);
 
         // 사거리 안에 적이 있으면 발사
         if (target != null)
         {
-            Fire(target, damage);
+            Fire(target, currentdamage);
             fireTimer = fireRate; // 쿨타임 리셋
         }
     }
 
     // 사거리 내 가장 가까운 적을 찾는 함수 (간단/확실)
-    private Transform FindClosestEnemyInRange()
+    private Transform FindClosestEnemyInRange(float currentrange)
     {
         Enemy[] enemies = FindObjectsOfType<Enemy>(); // 1일차 Enemy 이동 스크립트 기준
         Transform best = null;
@@ -51,7 +51,8 @@ public class Tower : MonoBehaviour
         foreach (var e in enemies)
         {
             float dist = Vector3.Distance(transform.position, e.transform.position);
-            if (dist <= range && dist < bestDist)
+
+            if (dist <= currentrange && dist < bestDist)
             {
                 bestDist = dist;
                 best = e.transform;
@@ -61,10 +62,10 @@ public class Tower : MonoBehaviour
         return best;
     }
 
-    private void Fire(Transform target, int damage)
+    private void Fire(Transform target, int currentdamage)
     {
         // 총알 생성 후 타겟/데미지 주입
         Bullet b = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-        b.Init(target, damage);
+        b.Init(target, currentdamage);
     }
 }

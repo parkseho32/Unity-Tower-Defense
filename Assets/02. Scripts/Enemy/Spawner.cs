@@ -17,6 +17,8 @@ public class Spawner : MonoBehaviour
     public bool IsSpawning { get; private set; }
     public event Action<Enemy> OnSpawned;
 
+    public event Action OnWaveSpawnFinished;
+
     private void Awake()
     {
         int childCount = pathRoot.childCount;
@@ -54,5 +56,6 @@ public class Spawner : MonoBehaviour
         }
 
         IsSpawning = false;
+        OnWaveSpawnFinished?.Invoke();
     }
 }

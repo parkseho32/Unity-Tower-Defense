@@ -18,12 +18,14 @@ public class WaveManager : MonoBehaviour
     private void OnEnable()
     {
         spawner.OnSpawned += HandleSpawned; // 스폰 알림 구독
+        spawner.OnWaveSpawnFinished += CheckWaveEnd; 
         nextWaveButton.onClick.AddListener(StartNextWave);
     }
 
     private void OnDisable()
     {
         spawner.OnSpawned -= HandleSpawned;
+        spawner.OnWaveSpawnFinished -= CheckWaveEnd;
         nextWaveButton.onClick.RemoveListener(StartNextWave);
     }
 
@@ -46,6 +48,7 @@ public class WaveManager : MonoBehaviour
     private void HandleSpawned(Enemy e)
     {
         aliveEnemies++; // 한 마리 살아있는 적 추가
+        UpdateUI();
 
         // EnemyHealth에 죽음 이벤트 연결해서 죽으면 alive 감소
         if (e.TryGetComponent(out EnemyHealth hp))
@@ -55,20 +58,32 @@ public class WaveManager : MonoBehaviour
                 aliveEnemies--;
                 if (aliveEnemies < 0) aliveEnemies = 0;
 
-                // 스폰도 끝났고, 살아있는 적도 0이면 웨이브 종료 → 버튼 활성화
-                if (!spawner.IsSpawning && aliveEnemies == 0)
-                    nextWaveButton.interactable = true;
-
+                CheckWaveEnd();
                 UpdateUI();
             };
         }
 
-        UpdateUI();
+        e.OnReachedGoal += () =>
+        {
+            aliveEnemies--;
+            if (aliveEnemies < 0) aliveEnemies = 0;
+
+            CheckWaveEnd();
+            UpdateUI();
+        };
     }
 
     private void UpdateUI()
     {
         if (waveText != null)
             waveText.text = $"Wave {waveIndex} | Alive {aliveEnemies}";
+    }
+
+    private void CheckWaveEnd()
+    {
+        if (!spawner.IsSpawning && aliveEnemies == 0)
+            nextWaveButton.interactable = true;
+
+        UpdateUI();
     }
 }

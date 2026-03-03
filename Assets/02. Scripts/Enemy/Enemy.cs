@@ -1,13 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public event Action OnReachedGoal;    // 마지막 WP 도착 이벤트
+
     [Header("Move")]
     [SerializeField] private float moveSpeed = 2.5f;   // 적 이동 속도
     private Transform[] waypoints;                     // 이동할 경로(웨이포인트 배열)
     private int wpIndex = 0;                           // 현재 목표 웨이포인트 인덱스
+
+    private bool isRemoved = false;   // 죽음 중복 방지
 
     //외부(Spawner)에서 경로를 주입해주는 초기화 함수
     public void Init(Transform[] pathWaypoints)
@@ -28,6 +31,7 @@ public class Enemy : MonoBehaviour
 
         // 목표에 거의 도착하면 다음 웨이포인트로 전환
         float dist = Vector3.Distance(transform.position, target);
+
         if (dist < 0.05f)
         {
             wpIndex++;
@@ -35,8 +39,17 @@ public class Enemy : MonoBehaviour
             // 마지막을 지나면 "도착 처리" -> 제거
             if (wpIndex >= waypoints.Length)
             {
-                Destroy(gameObject); // 오늘은 일단 제거로 처리 (나중에 HP감소/라이프감소로 확장)
+                ReachGoalAndRemove();
             }
         }
+    }
+
+    private void ReachGoalAndRemove()
+    {
+        if (isRemoved) return;
+        isRemoved = true;
+
+        OnReachedGoal?.Invoke();
+        Destroy(gameObject);
     }
 }
