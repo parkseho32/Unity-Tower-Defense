@@ -12,6 +12,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int spawnCount = 10; // 웨이브 당 스폰 수
     [SerializeField] private float spawnInterval = 0.05f;  // 스폰 간격(초)
 
+    [SerializeField] private EnemyRegistry registry;
+
     private Transform[] waypoints;   // pathRoot 자식들을 배열로 저장
 
     public bool IsSpawning { get; private set; }
@@ -49,6 +51,8 @@ public class Spawner : MonoBehaviour
         {
             Enemy e = Instantiate(enemyPrefab);
             e.Init(waypoints);
+
+            registry.Register(e);
 
             OnSpawned?.Invoke(e);    // WaveManager가 한 마리 스폰됨 카운트 가능
 

@@ -2,6 +2,9 @@
 
 public class Tower : MonoBehaviour
 {
+    [Header("Refs")]
+    [SerializeField] private EnemyRegistry registry;
+
     [Header("Attack")]
     [SerializeField] private float range = 3.5f;     // 사거리
     [SerializeField] private float fireRate = 0.8f;  // 발사 간격(초)
@@ -44,14 +47,19 @@ public class Tower : MonoBehaviour
     // 사거리 내 가장 가까운 적을 찾는 함수 (간단/확실)
     private Transform FindClosestEnemyInRange(float currentrange)
     {
-        Enemy[] enemies = FindObjectsOfType<Enemy>(); // 1일차 Enemy 이동 스크립트 기준
+        if (registry == null) return null; // 연결 안 됐으면 동작 안 함(디버그 포인트)
+
         Transform best = null;
         float bestDist = float.MaxValue;
 
-        foreach (var e in enemies)
+        // FindObjectsOfType 제거 → registry 리스트만 순회
+        var list = registry.Enemies;
+        for (int i = 0; i < list.Count; i++)
         {
-            float dist = Vector3.Distance(transform.position, e.transform.position);
+            Enemy e = list[i];
+            if (e == null) continue;
 
+            float dist = Vector3.Distance(transform.position, e.transform.position);
             if (dist <= currentrange && dist < bestDist)
             {
                 bestDist = dist;
@@ -67,5 +75,10 @@ public class Tower : MonoBehaviour
         // 총알 생성 후 타겟/데미지 주입
         Bullet b = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         b.Init(target, currentdamage);
+    }
+
+    public void SetRegistry(EnemyRegistry reg)
+    {
+        registry = reg;
     }
 }

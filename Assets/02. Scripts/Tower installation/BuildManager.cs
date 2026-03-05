@@ -9,6 +9,8 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private Tilemap pathTilemap;
     [SerializeField] private Economy economy;
 
+    [SerializeField] private EnemyRegistry registry;
+
     private readonly Dictionary<Vector3Int, GameObject> placedTowers = new();
 
     public Economy Economy => economy; // UI에서 쓰기 편하게 공개
@@ -31,6 +33,10 @@ public class BuildManager : MonoBehaviour
 
         Vector3 worldCenter = buildTilemap.GetCellCenterWorld(cellPos);
         GameObject towerGo = Instantiate(data.prefab, worldCenter, Quaternion.identity);
+
+        Tower tower = towerGo.GetComponent<Tower>();
+        if (tower == null) tower = towerGo.GetComponentInChildren<Tower>();
+        if (tower != null) tower.SetRegistry(registry);
 
         // 설치된 타워에 TowerInstance가 있으면 초기화
         if (towerGo.TryGetComponent(out TowerInstance inst))

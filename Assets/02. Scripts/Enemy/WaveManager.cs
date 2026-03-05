@@ -11,6 +11,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private int startSpawnCount = 8;
     [SerializeField] private int addPerWave = 3;
 
+    [SerializeField] private EnemyRegistry registry;
+
     private int waveIndex = 0;
     private int aliveEnemies = 0;     // 현재 살아있는 적 수
     private int plannedSpawn = 0;     // 이번 웨이브에서 스폰할 총 수
@@ -58,6 +60,8 @@ public class WaveManager : MonoBehaviour
                 aliveEnemies--;
                 if (aliveEnemies < 0) aliveEnemies = 0;
 
+                registry.Unregister(e);
+
                 CheckWaveEnd();
                 UpdateUI();
             };
@@ -67,6 +71,8 @@ public class WaveManager : MonoBehaviour
         {
             aliveEnemies--;
             if (aliveEnemies < 0) aliveEnemies = 0;
+
+            registry.Unregister(e);
 
             CheckWaveEnd();
             UpdateUI();

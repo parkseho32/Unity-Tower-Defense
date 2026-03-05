@@ -156,6 +156,7 @@ MonoBehaviour:
   waveText: {fileID: 867640337}
   startSpawnCount: 1
   addPerWave: 3
+  registry: {fileID: 1177432786}
 --- !u!4 &2599185
 Transform:
   m_ObjectHideFlags: 0
@@ -2124,6 +2125,7 @@ MonoBehaviour:
   pathRoot: {fileID: 1758405199}
   spawnCount: 10
   spawnInterval: 0.05
+  registry: {fileID: 1177432786}
 --- !u!4 &317793411
 Transform:
   m_ObjectHideFlags: 0
@@ -3552,6 +3554,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startGold: 100000
+--- !u!1 &1177432785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1177432787}
+  - component: {fileID: 1177432786}
+  m_Layer: 0
+  m_Name: EnemyRegistry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1177432786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177432785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e769088c58ad18b41acd437ba98d4942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1177432787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177432785}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 495.75607, y: 236.07745, z: 1.0446446}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1199652405
 GameObject:
   m_ObjectHideFlags: 0
@@ -4307,6 +4353,7 @@ MonoBehaviour:
   buildTilemap: {fileID: 119987853}
   pathTilemap: {fileID: 2055166929}
   economy: {fileID: 1156615223}
+  registry: {fileID: 1177432786}
 --- !u!1 &1758405198
 GameObject:
   m_ObjectHideFlags: 0
@@ -6280,3 +6327,4 @@ SceneRoots:
   - {fileID: 1946305309}
   - {fileID: 1069295866}
   - {fileID: 2599185}
+  - {fileID: 1177432787}
