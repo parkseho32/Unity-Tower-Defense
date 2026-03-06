@@ -13,6 +13,9 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField] private EnemyRegistry registry;
 
+    [SerializeField] private LifeManager lifeManager;
+    [SerializeField] private int lifeLossPerEscape = 1;
+
     private int waveIndex = 0;
     private int aliveEnemies = 0;     // 현재 살아있는 적 수
     private int plannedSpawn = 0;     // 이번 웨이브에서 스폰할 총 수
@@ -33,6 +36,7 @@ public class WaveManager : MonoBehaviour
 
     public void StartNextWave()
     {
+        if (lifeManager != null && lifeManager.IsGameOver) return;   // 게임오버면 시작 불가
         // 웨이브 진행 중(스폰 중이거나 살아있는 적 있으면) 다음 웨이브 금지
         if (spawner.IsSpawning || aliveEnemies > 0) return;
 
@@ -73,6 +77,8 @@ public class WaveManager : MonoBehaviour
             if (aliveEnemies < 0) aliveEnemies = 0;
 
             registry.Unregister(e);
+            if (lifeManager != null)
+                lifeManager.LoseLife(lifeLossPerEscape);
 
             CheckWaveEnd();
             UpdateUI();
