@@ -15,6 +15,7 @@ public class UITowerActions : MonoBehaviour
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button sellButton;
     [SerializeField] private Button closeButton;
+    [SerializeField] private LifeManager lifeManager;
 
     private TowerInstance selected;
 
@@ -58,6 +59,7 @@ public class UITowerActions : MonoBehaviour
     private void OnClickUpgrade()
     {
         if (selected == null) return;
+        if (lifeManager != null && lifeManager.IsGameOver) return;
 
         int upCost = selected.GetUpgradeCost();
         if (!buildManager.Economy.TrySpend(upCost)) return;
@@ -69,6 +71,7 @@ public class UITowerActions : MonoBehaviour
     private void OnClickSell()
     {
         if (selected == null) return;
+        if (lifeManager != null && lifeManager.IsGameOver) return;
 
         int sellValue = selected.GetSellValue();
         buildManager.Economy.Add(sellValue);

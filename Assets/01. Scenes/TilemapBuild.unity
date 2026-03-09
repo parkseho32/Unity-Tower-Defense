@@ -2347,6 +2347,7 @@ MonoBehaviour:
   upgradeButton: {fileID: 544522515}
   sellButton: {fileID: 1958921783}
   closeButton: {fileID: 503293489}
+  lifeManager: {fileID: 0}
 --- !u!224 &473975965
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2866,7 +2867,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 620349926}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2022768562}
+        m_TargetAssemblyTypeName: RestartButtonHandler, Assembly-CSharp
+        m_MethodName: Restart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &620349926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4775,6 +4788,7 @@ MonoBehaviour:
   mainCam: {fileID: 1692994723}
   buildTilemap: {fileID: 119987853}
   buildManager: {fileID: 1694472896}
+  lifeManager: {fileID: 0}
   SelectedTower: {fileID: 0}
 --- !u!114 &1694472896
 MonoBehaviour:
@@ -5576,6 +5590,7 @@ GameObject:
   - component: {fileID: 2022768559}
   - component: {fileID: 2022768561}
   - component: {fileID: 2022768560}
+  - component: {fileID: 2022768562}
   m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
@@ -5642,6 +5657,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022768558}
   m_CullTransparentMesh: 1
+--- !u!114 &2022768562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022768558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88034697abccc494fad24197b3347e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2044647308
 GameObject:
   m_ObjectHideFlags: 0

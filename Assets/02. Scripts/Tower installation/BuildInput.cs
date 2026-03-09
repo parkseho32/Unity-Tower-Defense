@@ -7,6 +7,7 @@ public class BuildInput : MonoBehaviour
     [SerializeField] private Camera mainCam;         // 메인 카메라
     [SerializeField] private Tilemap buildTilemap;   // BuildTilemap
     [SerializeField] private BuildManager buildManager;
+    [SerializeField] private LifeManager lifeManager;
 
     [Header("State")]
     public TowerData SelectedTower;                  // UIBuildPanel이 선택해주는 타워 데이터
@@ -21,6 +22,7 @@ public class BuildInput : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(0)) return;    // 좌클릭만 처리
         if (SelectedTower == null) return;           // 선택된 타워가 없으면 설치 안 함
+        if (lifeManager != null && lifeManager.IsGameOver) return; 
 
         // 화면 좌표 → 월드 좌표 변환
         Vector3 world = mainCam.ScreenToWorldPoint(Input.mousePosition);
