@@ -74,7 +74,18 @@ public class Tower : MonoBehaviour
     {
         // 총알 생성 후 타겟/데미지 주입
         Bullet b = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-        b.Init(target, currentdamage);
+
+        if(inst != null && inst.Data != null)
+        {
+            b.Init(target, currentdamage,
+                inst.Data.applySlow,
+                inst.Data.slowMultiplier,
+                inst.Data.slowDuration);
+        }
+        else
+        {
+            b.Init(target, currentdamage);
+        }
     }
 
     public void SetRegistry(EnemyRegistry reg)

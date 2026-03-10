@@ -10,4 +10,10 @@ public class TowerData : ScriptableObject
     [Header("Build")]
     public int cost;              // 설치 비용
     public GameObject prefab;     // 설치할 타워 프리팹
+
+    [Header("OnHit Effect")]
+    public bool applySlow;        // 맞추면 슬로우 적용 여부
+    [Range(0.1f, 1f)]
+    public float slowMultiplier = 0.5f;   // 속도 배율
+    public float slowDuration = 2f;       // 지속시간
 }
