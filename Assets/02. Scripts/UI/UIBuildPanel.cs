@@ -33,6 +33,9 @@ public class UIBuildPanel : MonoBehaviour
     private void OnDisable()
     {
         economy.OnGoldChanged -= UpdateGoldUI;
+
+        towerButton1.onClick.RemoveAllListeners();
+        towerButton2.onClick.RemoveAllListeners();
     }
 
     private void Start()

@@ -16,4 +16,9 @@ public class TowerData : ScriptableObject
     [Range(0.1f, 1f)]
     public float slowMultiplier = 0.5f;   // 속도 배율
     public float slowDuration = 2f;       // 지속시간
+
+    [Header("Base Stats")]
+    public int baseDamage = 2;
+    public float baseRange = 3.5f;
+    public float baseFireRate = 0.8f;
 }

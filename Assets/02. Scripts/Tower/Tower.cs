@@ -27,12 +27,12 @@ public class Tower : MonoBehaviour
     private void Update()
     {
         fireTimer -= Time.deltaTime;
-
         // 쿨타임이 남아있으면 발사 안 함
         if (fireTimer > 0f) return;
 
         float currentrange = (inst != null) ? inst.Range : range;     // 업그레이드 반영 사거리
         int currentdamage = (inst != null) ? inst.Damage : damage;    // 업그레이드 반영 데미지
+        float currentFireRate = (inst != null) ? inst.FireRate : fireRate; // 업그레이드 반영 발사 간격
 
         Transform target = FindClosestEnemyInRange(currentrange);
 

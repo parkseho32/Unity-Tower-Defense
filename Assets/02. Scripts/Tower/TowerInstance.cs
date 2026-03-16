@@ -9,8 +9,10 @@ public class TowerInstance : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private int damage = 2;   // 현재 데미지
     [SerializeField] private float range = 3.5f; // 현재 사거리
-    public int Damage => damage;               // 읽기 전용
-    public float Range => range;               // 읽기 전용
+    [SerializeField] private float fireRate = 0.8f;
+    public int Damage => damage;    
+    public float Range => range;
+    public float FireRate => fireRate;
 
     [Header("Source Data")]
     [SerializeField] private TowerData data;   // 어떤 TowerData로 설치됐는지(저장)
@@ -21,8 +23,11 @@ public class TowerInstance : MonoBehaviour
     {
         data = towerData;   // 데이터 저장
         level = 1;          // 레벨 초기화
-        damage = baseDamage; // 기본 스탯 세팅
-        range = baseRange;
+
+        // TowerData 기본값으로 초기화
+        damage = (data != null) ? data.baseDamage : 2;
+        range = (data != null) ? data.baseRange : 3.5f;
+        fireRate = (data != null) ? data.baseFireRate : 0.8f;
     }
 
     // 업그레이드 비용: 설치비의 50% * 현재 레벨 (간단 규칙)

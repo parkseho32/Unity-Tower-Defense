@@ -16,3 +16,9 @@ MonoBehaviour:
   icon: {fileID: 0}
   cost: 25
   prefab: {fileID: 5652780531433623, guid: 2ff262441920e9f4ba3a0aa3568def01, type: 3}
+  applySlow: 0
+  slowMultiplier: 0.5
+  slowDuration: 2
+  baseDamage: 3
+  baseRange: 3.5
+  baseFireRate: 0.7

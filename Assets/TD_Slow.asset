@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Slow
   icon: {fileID: 0}
-  cost: 35
+  cost: 40
   prefab: {fileID: 5652780531433623, guid: c3d22ab68ab2816469c9e9e35ad0c1c2, type: 3}
   applySlow: 1
   slowMultiplier: 0.5
   slowDuration: 2
+  baseDamage: 2
+  baseRange: 3
+  baseFireRate: 0.9
