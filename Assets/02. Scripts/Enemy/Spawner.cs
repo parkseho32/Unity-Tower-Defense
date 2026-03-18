@@ -26,7 +26,7 @@ public class Spawner : MonoBehaviour
         int childCount = pathRoot.childCount;
         waypoints = new Transform[childCount];
 
-        for(int i =0;i<childCount;i++)
+        for (int i = 0; i < childCount; i++)
         {
             waypoints[i] = pathRoot.GetChild(i);
         }
@@ -34,23 +34,31 @@ public class Spawner : MonoBehaviour
 
     public void StartWave()
     {
-        StartWave(spawnCount);
+        StartWave(spawnCount, 1);
     }
 
-    public void StartWave(int count)  // 웨이브마다 스폰 수 받기
+    public void StartWave(int count)
+    {
+        StartWave(count, 1);
+    }
+
+    public void StartWave(int count, int waveIndex)  // 웨이브마다 스폰 수 받기
     {
         if (IsSpawning) return;  // 이미 스폰 중이면 중복 시작 방지
-        StartCoroutine(CoSpawnWave(count));
+        StartCoroutine(CoSpawnWave(count,waveIndex));
     }
 
-    private IEnumerator CoSpawnWave(int count)
+    private IEnumerator CoSpawnWave(int count, int waveIndex)
     {
         IsSpawning = true;
 
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 0; i < count; i++)
         {
             Enemy e = Instantiate(enemyPrefab);
             e.Init(waypoints);
+
+            if (e.TryGetComponent(out EnemyHealth hp))
+                hp.ApplyWaveScaling(waveIndex, 5);
 
             registry.Register(e);
 

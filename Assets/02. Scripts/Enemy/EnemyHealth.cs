@@ -38,4 +38,11 @@ public class EnemyHealth : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void ApplyWaveScaling(int waveIndex,int hpAddPerWave = 5)
+    {
+        int bonusHp = Mathf.Max(0, (waveIndex - 1) * hpAddPerWave);
+        maxHp += bonusHp;
+        hp += bonusHp;
+    }
 }
