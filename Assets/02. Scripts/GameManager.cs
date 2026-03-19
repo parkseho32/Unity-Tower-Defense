@@ -9,6 +9,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // 1일차: 게임 시작하자마자 웨이브 1개만 실행
-        spawner.StartWave();
+        //spawner.StartWave();
     }
 }

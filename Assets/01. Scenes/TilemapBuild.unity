@@ -154,7 +154,7 @@ MonoBehaviour:
   spawner: {fileID: 317793410}
   nextWaveButton: {fileID: 169810632}
   waveText: {fileID: 867640337}
-  startSpawnCount: 13
+  startSpawnCount: 8
   addPerWave: 3
   registry: {fileID: 1177432786}
   lifeManager: {fileID: 692982721}
