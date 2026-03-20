@@ -19,6 +19,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Color slowColor = new Color(0.4f, 0.7f, 1f, 1f);
 
+    public int WaypointIndex => wpIndex;
+    public int WaypointCount => waypoints != null ? waypoints.Length : 0;
+
     private Color originalColor;
 
     //외부(Spawner)에서 경로를 주입해주는 초기화 함수

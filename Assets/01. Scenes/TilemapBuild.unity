@@ -2131,7 +2131,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 6438788074807646676, guid: f760b6be0383aee4a9ed38c794a6cdcb, type: 3}
   pathRoot: {fileID: 1758405199}
   spawnCount: 10
-  spawnInterval: 0.05
+  spawnInterval: 1
   registry: {fileID: 1177432786}
 --- !u!4 &317793411
 Transform:

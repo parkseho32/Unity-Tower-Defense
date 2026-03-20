@@ -1,7 +1,15 @@
 ﻿using UnityEngine;
 
+public enum TargetMode
+{
+    Closest,
+    MostProgressed
+}
+
 public class Tower : MonoBehaviour
 {
+    [SerializeField] private TargetMode targetMode = TargetMode.MostProgressed;
+
     [Header("Refs")]
     [SerializeField] private EnemyRegistry registry;
 
@@ -40,7 +48,7 @@ public class Tower : MonoBehaviour
         if (target != null)
         {
             Fire(target, currentdamage);
-            fireTimer = fireRate; // 쿨타임 리셋
+            fireTimer = currentFireRate; // 쿨타임 리셋
         }
     }
 
@@ -49,8 +57,10 @@ public class Tower : MonoBehaviour
     {
         if (registry == null) return null; // 연결 안 됐으면 동작 안 함(디버그 포인트)
 
-        Transform best = null;
+        Enemy bestEnemy = null;
         float bestDist = float.MaxValue;
+
+        int bestWpIndex = -1;
 
         // FindObjectsOfType 제거 → registry 리스트만 순회
         var list = registry.Enemies;
@@ -60,14 +70,38 @@ public class Tower : MonoBehaviour
             if (e == null) continue;
 
             float dist = Vector3.Distance(transform.position, e.transform.position);
-            if (dist <= currentrange && dist < bestDist)
+            if (dist > currentrange) continue;   // 사거리 밖이면 제외
+
+            if (targetMode == TargetMode.Closest)
             {
-                bestDist = dist;
-                best = e.transform;
+                if (dist <= currentrange && dist < bestDist)
+                {
+                    // 기존 방식: 가장 가까운 적
+                    bestDist = dist;
+                    bestEnemy = e;
+                }
+            }
+            else
+            {
+                // 1) 웨이포인트 인덱스가 큰 적 우선
+                int wp = e.WaypointIndex;
+
+                if (wp > bestWpIndex)
+                {
+                    bestWpIndex = wp;
+                    bestDist = dist;
+                    bestEnemy = e;
+                }
+                else if(wp == bestWpIndex && dist < bestDist)
+                {
+                    bestDist = dist;
+                    bestEnemy = e;
+                }
             }
         }
 
-        return best;
+
+        return bestEnemy != null ? bestEnemy.transform : null;
     }
 
     private void Fire(Transform target, int currentdamage)
