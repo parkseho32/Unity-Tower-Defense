@@ -11,6 +11,9 @@ public class BuildManager : MonoBehaviour
 
     [SerializeField] private EnemyRegistry registry;
 
+    [SerializeField] private TargetMode defaultTargetMode = TargetMode.MostProgressed;
+    public TargetMode DefaultTargetMode => defaultTargetMode;
+
     private readonly Dictionary<Vector3Int, GameObject> placedTowers = new();
 
     public Economy Economy => economy; // UI에서 쓰기 편하게 공개
@@ -36,7 +39,13 @@ public class BuildManager : MonoBehaviour
 
         Tower tower = towerGo.GetComponent<Tower>();
         if (tower == null) tower = towerGo.GetComponentInChildren<Tower>();
-        if (tower != null) tower.SetRegistry(registry);
+        
+
+        if(tower !=null)
+        {
+            tower.SetRegistry(registry);
+            tower.SetTargetMode(defaultTargetMode);
+        }
 
         // 설치된 타워에 TowerInstance가 있으면 초기화
         if (towerGo.TryGetComponent(out TowerInstance inst))
@@ -71,5 +80,10 @@ public class BuildManager : MonoBehaviour
         {
             placedTowers.Remove(cellPos);
         }
+    }
+
+    public void SetDefaultTargetMode(TargetMode mode)
+    {
+        defaultTargetMode = mode;
     }
 }

@@ -122,6 +122,16 @@ public class Tower : MonoBehaviour
         }
     }
 
+    public void SetTargetMode(TargetMode mode)
+    {
+        targetMode = mode;
+    }
+
+    public TargetMode GetTargetMode()
+    {
+        return targetMode;
+    }
+
     public void SetRegistry(EnemyRegistry reg)
     {
         registry = reg;

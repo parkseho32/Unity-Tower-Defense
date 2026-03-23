@@ -16,6 +16,8 @@ public class UITowerActions : MonoBehaviour
     [SerializeField] private Button sellButton;
     [SerializeField] private Button closeButton;
     [SerializeField] private LifeManager lifeManager;
+    [SerializeField] private TMP_Dropdown targetModeDropdown;
+    [SerializeField] private Button setDefaultButton;
 
     private TowerInstance selected;
 
@@ -28,12 +30,21 @@ public class UITowerActions : MonoBehaviour
 
         if (closeButton != null)
             closeButton.onClick.AddListener(Deselect);
+
+        if (targetModeDropdown != null)
+            targetModeDropdown.onValueChanged.AddListener(OnChangedTargetMode);
+
+        if (setDefaultButton != null)
+            setDefaultButton.onClick.AddListener(SetAsDefaultMode);
     }
 
     public void SelectTower(TowerInstance tower)
     {
         selected = tower;
         panelRoot.SetActive(true);
+
+        SyncDropdownWithTower();
+
         Refresh();
     }
 
@@ -95,5 +106,44 @@ public class UITowerActions : MonoBehaviour
     {
         selected = null;          // 선택 해제
         panelRoot.SetActive(false); // 패널 숨김
+    }
+
+    private Tower GetTowerFromSelected()
+    {
+        if (selected == null) return null;
+
+        Tower t = selected.GetComponent<Tower>();
+        if (t == null) t = selected.GetComponentInChildren<Tower>();
+        if (t == null) t = selected.GetComponentInParent<Tower>();
+
+        return t;
+    }
+
+    private void SyncDropdownWithTower()
+    {
+        if (targetModeDropdown == null) return;
+
+        Tower t = GetTowerFromSelected();
+        if (t == null) return;
+
+        int idx = (int)t.GetTargetMode();
+        targetModeDropdown.SetValueWithoutNotify(idx);
+        targetModeDropdown.RefreshShownValue();
+    }
+
+    private void OnChangedTargetMode(int value)
+    {
+        Tower t = GetTowerFromSelected();
+        if (t == null) return;
+
+        t.SetTargetMode((TargetMode)value);
+    }
+
+    private void SetAsDefaultMode()
+    {
+        if (targetModeDropdown == null) return;
+        if (buildManager == null) return;
+
+        buildManager.SetDefaultTargetMode((TargetMode)targetModeDropdown.value);
     }
 }
